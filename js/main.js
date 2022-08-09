@@ -152,13 +152,16 @@ function saveResult(vertices, triangles) {
 
   var poly = 'points=[' + vertices + '];\r\nfaces=[' + triangles + '];';
 
+  /*
   calls = calls + 'object' + (++totalObjects) + '(1);\r\n\r\n';
 
   modules = modules + 'module object' + totalObjects + '(scale) {';
   modules = modules + poly + '}\r\n\r\n';
 
   result = modules + calls;
-
+  */
+  
+  result = poly;
 
   window.URL = window.URL || window.webkitURL;
   //prompt("Copy scad:", result); //prompt result in a copyable field
@@ -206,9 +209,10 @@ function handleFileSelect(evt) {
   progress.style.width = '0%';
   progress.textContent = '0%';
   
-  filename = evt.target.files[0].name;
-  var extension = String(filename.match(/\.[0-9a-z]+$/i));
+  var fullfilename = evt.target.files[0].name;
+  var extension = String(fullfilename.match(/\.[0-9a-z]+$/i));
   if (extension.toLowerCase() == ".stl") {
+    filename = String(fullfilename.match(/^[^.]*/i));
     reader = new FileReader();
     reader.onerror = errorHandler;
     reader.onprogress = updateProgress;
