@@ -12,6 +12,7 @@ var vertexIndex = 0;
 var converted = 0;
 var totalObjects = 0;
 var convertedObjects = 0;
+var filename = '';
 
 function _reset() {
   vertices = [];
@@ -149,7 +150,7 @@ function error(err) {
 //Makes the Download link create an OpenScad file with a polyhedron object that represents the parsed stl file
 function saveResult(vertices, triangles) {
 
-  var poly = 'polyhedron(\r\n points=[' + vertices + ' ],\r\nfaces=[' + triangles + ']);';
+  var poly = 'points=[' + vertices + '];\r\nfaces=[' + triangles + '];';
 
   calls = calls + 'object' + (++totalObjects) + '(1);\r\n\r\n';
 
@@ -166,7 +167,7 @@ function saveResult(vertices, triangles) {
   });
 
   $("#download").attr("href", window.URL.createObjectURL(blob));
-  $("#download").attr("download", "FromSTL.scad");
+  $("#download").attr("download", filename + "_FromSTL.scad");
 
   document.getElementById("conversion").innerText = "Conversion complete - Click the button below to download your OpenSCAD file! Total Triangles: " + triangles.length;
   document.getElementById("download").style.display = "";
@@ -205,7 +206,7 @@ function handleFileSelect(evt) {
   progress.style.width = '0%';
   progress.textContent = '0%';
   
-  var filename = evt.target.files[0].name;
+  filename = evt.target.files[0].name;
   var extension = String(filename.match(/\.[0-9a-z]+$/i));
   if (extension.toLowerCase() == ".stl") {
     reader = new FileReader();
